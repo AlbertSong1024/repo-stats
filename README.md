@@ -16,6 +16,7 @@
 - 🔧 **CLI Interface** - Easy to use from command line
 - 📦 **Pip Installable** - Install with a single command
 
+- 🔄 **Compare Repos** - Compare two repositories side by side
 ## 📦 Installation
 
 ### From PyPI (recommended)
@@ -43,6 +44,16 @@ export GITHUB_TOKEN="ghp_your-token-here"
 ```
 
 ## 🚀 Usage
+
+### Compare Repositories
+
+```bash
+# Compare two repositories
+repo-stats compare owner/repo1 owner/repo2
+
+# Export comparison to JSON
+repo-stats compare owner/repo1 owner/repo2 --format json
+```
 
 ### Basic Usage
 
