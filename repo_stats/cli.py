@@ -71,6 +71,38 @@ def parse_repo_input(repo_input: str) -> tuple:
     default=None,
     help="Output file path (for JSON format)",
 )
+
+
+
+@click.command()
+@click.argument("repo1")
+@click.argument("repo2")
+@click.option("--token", "-t", default=None, help="GitHub API token")
+@click.option("--format", "-f", type=click.Choice(["text", "json"]), default="text", help="Output format")
+def compare(repo1: str, repo2: str, token: Optional[str] = None, format: str = "text") -> None:
+    """Compare two GitHub repositories."""
+    token = token or os.environ.get("GITHUB_TOKEN")
+    
+    owner1, name1 = parse_repo_input(repo1)
+    owner2, name2 = parse_repo_input(repo2)
+    
+    console.print(f"[cyan]Fetching {owner1}/{name1}...[/cyan]")
+    info1 = fetch_repo_info(owner1, name1, token)
+    
+    console.print(f"[cyan]Fetching {owner2}/{name2}...[/cyan]")
+    info2 = fetch_repo_info(owner2, name2, token)
+    
+    if format == "json":
+        report = generate_compare_json(info1, info2)
+        console.print(json.dumps(report, indent=2))
+    else:
+        compare_repos(info1, info2)
+
+
+def main() -> None:
+    """Main CLI entry point."""
+    pass
+
 def main(
     repo: str,
     token: str,
