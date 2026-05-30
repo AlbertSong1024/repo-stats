@@ -15,6 +15,7 @@
 - 📊 **JSON导出** - 导出数据用于进一步分析
 - 🔍 **详细洞察** - 贡献者排名、最近提交、语言占比
 - ⚡ **快速** - 直接从GitHub API获取数据
+- 🔄 **仓库对比** - 并排对比两个仓库指标差异
 - 🔧 **CLI界面** - 命令行操作简单便捷
 - 📦 **Pip安装** - 一键安装
 
@@ -45,6 +46,16 @@ export GITHUB_TOKEN="ghp_your-token-here"
 ```
 
 ## 🚀 使用方法
+
+### 仓库对比
+
+```bash
+# 对比两个仓库
+repo-stats compare owner/repo1 owner/repo2
+
+# 导出对比结果为JSON
+repo-stats compare owner/repo1 owner/repo2 --format json
+```
 
 ### 基本用法
 
