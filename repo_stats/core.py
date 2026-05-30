@@ -211,3 +211,84 @@ def generate_json_report(
             for c in commits[:5]
         ],
     }
+
+
+
+def compare_repos(repo1_info: Dict[str, Any], repo2_info: Dict[str, Any]) -> None:
+    """Compare two repositories side by side."""
+    table = Table(title="Repository Comparison", show_header=True, header_style="bold magenta")
+    table.add_column("Metric", style="cyan")
+    table.add_column(repo1_info.get("full_name", "Repo 1"), style="green")
+    table.add_column(repo2_info.get("full_name", "Repo 2"), style="yellow")
+    table.add_column("Difference", style="bold")
+    
+    metrics = [
+        ("Stars", repo1_info.get("stargazers_count", 0), repo2_info.get("stargazers_count", 0)),
+        ("Forks", repo1_info.get("forks_count", 0), repo2_info.get("forks_count", 0)),
+        ("Open Issues", repo1_info.get("open_issues_count", 0), repo2_info.get("open_issues_count", 0)),
+        ("Watchers", repo1_info.get("subscribers_count", 0), repo2_info.get("subscribers_count", 0)),
+    ]
+    
+    for name, val1, val2 in metrics:
+        diff = val1 - val2
+        diff_str = f"+{diff}" if diff > 0 else str(diff)
+        style = "green" if diff > 0 else "red" if diff < 0 else "white"
+        table.add_row(
+            name,
+            format_number(val1),
+            format_number(val2),
+            f"[{style}]{diff_str}[/{style}]"
+        )
+    
+    # Add language
+    table.add_row(
+        "Language",
+        repo1_info.get("language", "N/A"),
+        repo2_info.get("language", "N/A"),
+        "-"
+    )
+    
+    # Add license
+    table.add_row(
+        "License",
+        (repo1_info.get("license") or {}).get("spdx_id", "N/A"),
+        (repo2_info.get("license") or {}).get("spdx_id", "N/A"),
+        "-"
+    )
+    
+    # Add created date
+    table.add_row(
+        "Created",
+        repo1_info.get("created_at", "")[:10],
+        repo2_info.get("created_at", "")[:10],
+        "-"
+    )
+    
+    console.print(table)
+
+
+def generate_compare_json(repo1_info: Dict[str, Any], repo2_info: Dict[str, Any]) -> Dict[str, Any]:
+    """Generate JSON comparison report."""
+    return {
+        "comparison": {
+            "repo1": {
+                "name": repo1_info.get("full_name"),
+                "stars": repo1_info.get("stargazers_count"),
+                "forks": repo1_info.get("forks_count"),
+                "issues": repo1_info.get("open_issues_count"),
+                "language": repo1_info.get("language"),
+            },
+            "repo2": {
+                "name": repo2_info.get("full_name"),
+                "stars": repo2_info.get("stargazers_count"),
+                "forks": repo2_info.get("forks_count"),
+                "issues": repo2_info.get("open_issues_count"),
+                "language": repo2_info.get("language"),
+            },
+            "differences": {
+                "stars": repo1_info.get("stargazers_count", 0) - repo2_info.get("stargazers_count", 0),
+                "forks": repo1_info.get("forks_count", 0) - repo2_info.get("forks_count", 0),
+                "issues": repo1_info.get("open_issues_count", 0) - repo2_info.get("open_issues_count", 0),
+            }
+        }
+    }
