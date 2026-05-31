@@ -28,7 +28,7 @@ pip install repo-stats
 ### From source
 
 ```bash
-git clone https://github.com/Alex-2Code/repo-stats.git
+git clone https://github.com/AlbertSong1024/repo-stats.git
 cd repo-stats
 pip install -e .
 ```
@@ -219,11 +219,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-- GitHub: [@Alex-2Code](https://github.com/Alex-2Code)
+- GitHub: [@AlbertSong1024](https://github.com/AlbertSong1024)
 
 ---
 
-Made with ❤️ by [Alex-2Code](https://github.com/Alex-2Code)
+Made with ❤️ by [AlbertSong1024](https://github.com/AlbertSong1024)
 
 ---
 <!-- last-updated -->
